@@ -6,7 +6,7 @@
 /*   By: pkongkha <pkongkha@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 23:12:08 by pkongkha          #+#    #+#             */
-/*   Updated: 2026/05/06 23:13:32 by pkongkha         ###   ########.fr       */
+/*   Updated: 2026/05/07 14:01:59 by pkongkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ struct	s_main_info
 	int	cmd_succ;
 };
 
-int		create_proc(int fdout, char *cmdargs, int fdin);
-int		create_proc_close(int fdout, char *cmdargs, int fdin, int fdclose);
+int		create_proc(int fdout, char *cmdargs, int fdin, int fdclose);
 void	err_cmdnotfound(char *name);
 void	fake_eof(int fd);
 int		ft_execvp(const char *file, char *const argv[]);
