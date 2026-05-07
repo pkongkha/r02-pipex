@@ -1,7 +1,26 @@
-SRCS := $(wildcard *.c)
+SRCS :=\
+create_proc.c\
+err_cmdnotfound.c\
+fake_eof.c\
+ft_execvp.c\
+is_path.c\
+pipex.c\
+stdin_hdoc_pipe.c
+
+BO_SRCS :=\
+create_proc.c\
+err_cmdnotfound.c\
+fake_eof.c\
+ft_execvp.c\
+is_path.c\
+pipex_bonus.c\
+stdin_hdoc_pipe.c
+
 OBJDIR ?= .obj
 OBJS := $(SRCS:%.c=$(OBJDIR)/%.o)
+BO_OBJS := $(BO_SRCS:%.c=$(OBJDIR)/%.o)
 DEPS := $(OBJS:.o=.d)
+BO_DEPS := $(BO_OBJS:.o=.d)
 
 ORIG_CFLAGS := $(CFLAGS)
 CFLAGS += -Wall -Wextra -Werror -pedantic
@@ -15,12 +34,15 @@ CC ?= cc
 
 NAME := pipex
 
-.PHONY: $(NAME) all clean fclean re
+.PHONY: bonus all clean fclean re
 .NOTPARALLEL: re
 all: $(NAME)
+bonus: $(BO_OBJS) | libft/libft.a
+	$(CC) $(LDFLAGS) -o $(NAME) $^ $(LDLIBS)
 clean:
 	$(MAKE) -C libft fclean
 	$(RM) $(OBJS) $(DEPS)
+	$(RM) $(BO_OBJS) $(BO_DEPS)
 	rmdir --ignore-fail-on-nonempty -p $(OBJDIR) 2>/dev/null | true
 fclean: clean
 	$(RM) $(NAME)

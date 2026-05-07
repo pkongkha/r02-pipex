@@ -6,7 +6,7 @@
 /*   By: pkongkha <pkongkha@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 23:06:04 by pkongkha          #+#    #+#             */
-/*   Updated: 2026/05/07 15:52:36 by pkongkha         ###   ########.fr       */
+/*   Updated: 2026/05/07 15:25:27 by pkongkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ static int	cpipe_1(int fdpipe[2], char **argv, int argc, int cmd_count)
 	int	cmd_succ;
 
 	cmd_succ = 0;
-	fdin = open(argv[1], O_RDONLY);
+	if (ft_strncmp(argv[1], "here_doc", 9) == 0)
+		fdin = stdin_hdoc_pipe(argv[2]);
+	else
+		fdin = open(argv[1], O_RDONLY);
 	if (fdin < 0)
 	{
 		perror(argv[1]);
@@ -61,7 +64,10 @@ static int	cpipe_3(int fdpipe[2], char **argv, int argc, int cmd_count)
 	int	fdout;
 
 	cmd_succ = 0;
-	fdout = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC);
+	if (ft_strncmp(argv[1], "here_doc", 9) == 0)
+		fdout = open(argv[argc - 1], O_WRONLY | O_CREAT | O_APPEND);
+	else
+		fdout = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC);
 	if (fdout < 0)
 		perror(argv[argc - 1]);
 	else if (create_proc(fdout, argv[argc - 1 - cmd_count], fdpipe[0], -1) > 0)
@@ -87,10 +93,10 @@ int	main(int argc, char **argv)
 	int					status;
 	int					cmd_count_o;
 
-	if (argc != 4)
+	if (argc < 4 || (argc < 5 && ft_strncmp(argv[1], "here_doc", 9)))
 		return (1);
 	status = 0;
-	cmd_count_o = argc - 3;
+	cmd_count_o = argc - 3 - (ft_strncmp(argv[1], "here_doc", 9) == 0);
 	in = (struct s_main_info){.cmd_count = cmd_count_o, .cmd_succ = 0};
 	while (in.cmd_count)
 	{
