@@ -6,12 +6,15 @@
 /*   By: pkongkha <pkongkha@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 22:51:54 by pkongkha          #+#    #+#             */
-/*   Updated: 2026/05/07 14:32:42 by pkongkha         ###   ########.fr       */
+/*   Updated: 2026/05/19 12:42:00 by pkongkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "pipex.h"
+
+#include <errno.h>
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -21,60 +24,81 @@ static char	**gen_empty_substr(void)
 	char	**substrs;
 
 	substrs = malloc(2 * sizeof(char *));
+	if (!substrs)
+		return (NULL);
 	substrs[0] = malloc(1);
+	if (!*substrs)
+	{
+		free(substrs);
+		return (NULL);
+	}
 	substrs[0][0] = '\0';
 	substrs[1] = NULL;
 	return (substrs);
 }
 
-static void	args_mutate_empty(char ***args)
+static char	**get_paths(char **env)
 {
-	if (!*args)
-		*args = gen_empty_substr();
-	else if (!**args)
+	while (*env)
 	{
-		ft_split_destroy(*args);
-		*args = gen_empty_substr();
+		if (ft_strncmp(*env, "PATH=", 5) == 0)
+			return (ft_split(&(*env)[5], ':'));
+		++env;
 	}
+	return (gen_empty_substr());
 }
 
-static int	create_proc_exec(int fdout, char **args, int fdin)
+static char	**get_args(char *cmd)
 {
-	dup2(fdin, STDIN_FILENO);
-	if (fdin != STDIN_FILENO)
-		close(fdin);
-	dup2(fdout, STDOUT_FILENO);
-	if (fdout != STDOUT_FILENO)
-		close(fdout);
-	ft_execvp(args[0], args);
-	if (is_path(args[0]))
-		perror(args[0]);
-	else
-		err_cmdnotfound(args[0]);
-	ft_split_destroy(args);
-	exit(1);
-}
-
-int	create_proc(int fdout, char *cmdargs, int fdin, int fdclose)
-{
-	int		pid;
 	char	**args;
 
-	pid = fork();
-	args = ft_split(cmdargs, ' ');
-	args_mutate_empty(&args);
-	if (pid == -1)
+	args = ft_split(cmd, ' ');
+	if (!args)
+		args = gen_empty_substr();
+	else if (!*args)
 	{
-		perror(args[0]);
 		ft_split_destroy(args);
+		args = gen_empty_substr();
+	}
+	return (args);
+}
+
+static int	init_args_paths(struct s_create_proc_info *i, char **args[],
+		char **paths[])
+{
+	*args = get_args(i->cmd);
+	if (!*args)
+		return (-ENOMEM);
+	*paths = get_paths(i->env);
+	if (!*paths)
+	{
+		ft_split_destroy(*args);
+		return (-ENOMEM);
+	}
+	return (0);
+}
+
+int	create_proc(struct s_create_proc_info *i)
+{
+	pid_t	pid;
+	char	**args;
+	char	**paths;
+
+	if (init_args_paths(i, &args, &paths) < 0)
+	{
+		perror("pipex");
 		return (-1);
 	}
+	pid = fork();
+	if (pid == -1)
+		perror(args[0]);
 	else if (pid == 0)
 	{
-		if (fdclose >= 0)
-			close(fdclose);
-		create_proc_exec(fdout, args, fdin);
+		if (i->fdcloexec >= 0)
+			close(i->fdcloexec);
+		create_proc_exec(i, args, paths);
 	}
 	ft_split_destroy(args);
+	ft_split_destroy(paths);
 	return (pid);
 }

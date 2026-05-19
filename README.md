@@ -29,8 +29,14 @@ Which equivlent to
 # Resources
 - manpages
 - [RedHat | How to use Valgrind to track file descriptors](https://developers.redhat.com/articles/2023/01/09/how-use-valgrind-track-file-descriptors#valgrind___track_fds_yes)
+- [OpenGroup | IEEE Std 1003.1-2017 - Shell Command Language](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html)
+	- Section 2.7 redirection
+	- Section 2.9.1 simple commands
+	- Section 2.9.2 pipelines
 
 ## AI Usage
 - Ask where to close fd.
 - How to check for zombied process
 - How can pipe be used
+- Find source about pipe behavior
+- Ask about WIFEXITED behavior

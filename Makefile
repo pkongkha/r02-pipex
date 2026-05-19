@@ -1,20 +1,24 @@
 SRCS :=\
 create_proc.c\
+create_proc_exec.c\
+create_proc_info_init.c\
 err_cmdnotfound.c\
 fake_eof.c\
-ft_execvp.c\
-is_path.c\
+ft_execvpe.c\
 pipex.c\
-stdin_hdoc_pipe.c
+stdin_hdoc_pipe.c\
+wexitstatus.c
 
 BO_SRCS :=\
 create_proc.c\
+create_proc_exec.c\
+create_proc_info_init.c\
 err_cmdnotfound.c\
 fake_eof.c\
-ft_execvp.c\
-is_path.c\
+ft_execvpe.c\
 pipex_bonus.c\
-stdin_hdoc_pipe.c
+stdin_hdoc_pipe.c\
+wexitstatus.c
 
 OBJDIR ?= .obj
 OBJS := $(SRCS:%.c=$(OBJDIR)/%.o)
