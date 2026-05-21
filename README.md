@@ -10,7 +10,7 @@ For standard program, it takes 4 arguments
 ```sh
 ./pipex <file_in> <cmd1> <cmd2> <file_out>
 ```
-Which will open file_in and redirect it into cmd1 then STDOUT from cmd1 is piped (redirected) into STDIN cmd2 then STDOUT is redirected to the file_out.
+Which will open file\_in and redirect it into cmd1 then STDOUT from cmd1 is piped (redirected) into STDIN cmd2 then STDOUT is redirected to the file\_out.
 Which equivlent to
 ```sh
 < file_in cmd1 | cmd2 file_out >

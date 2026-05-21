@@ -1,5 +1,7 @@
 SRCS :=\
+create_file.c\
 create_proc.c\
+create_proc_and_close_fd.c\
 create_proc_exec.c\
 create_proc_info_init.c\
 err_cmdnotfound.c\
@@ -7,10 +9,13 @@ fake_eof.c\
 ft_execvpe.c\
 pipex.c\
 stdin_hdoc_pipe.c\
+wait_count.c\
 wexitstatus.c
 
 BO_SRCS :=\
+create_file.c\
 create_proc.c\
+create_proc_and_close_fd.c\
 create_proc_exec.c\
 create_proc_info_init.c\
 err_cmdnotfound.c\
@@ -18,6 +23,7 @@ fake_eof.c\
 ft_execvpe.c\
 pipex_bonus.c\
 stdin_hdoc_pipe.c\
+wait_count.c\
 wexitstatus.c
 
 OBJDIR ?= .obj

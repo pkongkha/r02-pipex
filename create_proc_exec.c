@@ -6,7 +6,7 @@
 /*   By: pkongkha <pkongkha@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 12:30:51 by pkongkha          #+#    #+#             */
-/*   Updated: 2026/05/21 10:11:00 by pkongkha         ###   ########.fr       */
+/*   Updated: 2026/05/21 14:00:31 by pkongkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	is_command_found(char *filename, char *paths[])
 			return (-1);
 		if (access(buf, F_OK) == 0)
 		{
-			(void)access(buf, X_OK);
+			access(buf, X_OK);
 			free(buf);
 			return (1);
 		}
@@ -55,11 +55,18 @@ static int	create_proc_exec_path_err(char *pathname)
 		return (1);
 }
 
+static int	is_all_spc(char *str)
+{
+	while (ft_isspace(*str))
+		++str;
+	return (*str == '\0');
+}
+
 static int	create_proc_exec_cmd_err(char *cmdname, char *paths[])
 {
 	const int	exists = is_command_found(cmdname, paths);
 
-	if (exists)
+	if (exists && !is_all_spc(cmdname))
 	{
 		perror(cmdname);
 		return (126);

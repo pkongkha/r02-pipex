@@ -6,7 +6,7 @@
 /*   By: pkongkha <pkongkha@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 23:12:08 by pkongkha          #+#    #+#             */
-/*   Updated: 2026/05/19 12:32:37 by pkongkha         ###   ########.fr       */
+/*   Updated: 2026/05/21 12:07:03 by pkongkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ struct	s_create_proc_info
 	char	**env;
 };
 
+void	create_file(char *filename, enum e_input_mode mode);
 int		create_proc(struct s_create_proc_info *i);
+void	create_proc_and_closefd(struct s_main_info *i,
+			struct s_create_proc_info *cpinf);
 int		create_proc_exec(struct s_create_proc_info *i, char *args[],
 			char *paths[]);
 void	create_proc_info_init(struct s_main_info *i,
@@ -53,7 +56,6 @@ int		ft_execvpe(const char *file, char *const argv[], char *const envp[],
 			char *const paths[]);
 int		is_path(const char *path);
 int		stdin_hdoc_pipe(char *lim);
+int		wait_count(int cnt, pid_t lastpid);
 int		wexitstatus(int status);
-int		wifexited(int status);
-int		wtermsig(int status);
 #endif
