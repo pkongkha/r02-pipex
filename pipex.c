@@ -6,7 +6,7 @@
 /*   By: pkongkha <pkongkha@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 23:06:04 by pkongkha          #+#    #+#             */
-/*   Updated: 2026/05/19 12:25:13 by pkongkha         ###   ########.fr       */
+/*   Updated: 2026/05/21 10:18:44 by pkongkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ static void	create_proc_and_closefd(struct s_main_info *i,
 			i->last_pid = pid;
 		}
 	}
-	close(cpinf->fdin);
-	close(cpinf->fdout);
+	if (cpinf->fdin >= 3)
+		close(cpinf->fdin);
+	if (cpinf->fdout >= 3)
+		close(cpinf->fdout);
 }
 
 /**

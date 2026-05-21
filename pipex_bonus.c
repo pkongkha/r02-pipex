@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pkongkha <pkongkha@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 23:06:04 by pkongkha          #+#    #+#             */
-/*   Updated: 2026/05/19 12:19:50 by pkongkha         ###   ########.fr       */
+/*   Updated: 2026/05/21 10:15:49 by pkongkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "pipex.h"
+
 #include <fcntl.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -33,8 +34,10 @@ static void	create_proc_and_closefd(struct s_main_info *i,
 			i->last_pid = pid;
 		}
 	}
-	close(cpinf->fdin);
-	close(cpinf->fdout);
+	if (cpinf->fdin >= 3)
+		close(cpinf->fdin);
+	if (cpinf->fdout >= 3)
+		close(cpinf->fdout);
 }
 
 /**
