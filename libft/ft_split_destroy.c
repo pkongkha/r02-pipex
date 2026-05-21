@@ -6,7 +6,7 @@
 /*   By: pkongkha <pkongkha@student.42bangkok.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 02:27:29 by pkongkha          #+#    #+#             */
-/*   Updated: 2026/05/04 03:32:55 by pkongkha         ###   ########.fr       */
+/*   Updated: 2026/05/21 14:27:23 by pkongkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,11 @@
 
 void	ft_split_destroy(char **strs)
 {
-	char **const	strs_o = strs;
+	char **strs_o;
 
+	if (!strs)
+		return ;
+	strs_o = strs;
 	while (*strs)
 		free(*strs++);
 	free(strs_o);
